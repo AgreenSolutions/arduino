@@ -107,16 +107,24 @@ const serial = async (
                 // -> altere nome da tabela e colunas se necessário
                 // Este insert irá inserir dados de fk_aquario id=1 (fixo no comando do insert abaixo)
                 // >> Importante! você deve ter o aquario de id 1 cadastrado.
-                sqlquery = `INSERT INTO medida (dht11_umidade, dht11_temperatura, luminosidade, lm35_temperatura, chave, momento, fk_aquario) VALUES (${dht11Umidade}, ${dht11Temperatura}, ${luminosidade}, ${lm35Temperatura}, ${chave}, CURRENT_TIMESTAMP, 1)`;
+                sqlquery = `INSERT INTO leitura (temperatura,umidade,data_horario,fkSensor,fkEmpresa) VALUES (${dht11Temperatura},${dht11Umidade},NOW(),1,1)`;
+                sqlquery2 = `INSERT INTO leitura (temperatura,umidade,data_horario,fkSensor,fkEmpresa) VALUES (${dht11Temperatura2},${dht11Umidade2},NOW(),2,1)`;
+                sqlquery3 = `INSERT INTO leitura (temperatura,umidade,data_horario,fkSensor,fkEmpresa) VALUES (${dht11Temperatura3},${dht11Umidade3},NOW(),3,1)`;
+                sqlquery4 = `INSERT INTO leitura (temperatura,umidade,data_horario,fkSensor,fkEmpresa) VALUES (${dht11Temperatura4},${dht11Umidade4},NOW(),4,1)`;
+                
 
                 // CREDENCIAIS DO BANCO REMOTO - SQL SERVER
                 // Importante! você deve ter criado o usuário abaixo com os comandos presentes no arquivo
                 // "script-criacao-usuario-sqlserver.sql", presente neste diretório.
-                const connStr = "Server=servidor-acquatec.database.windows.net;Database=bd-acquatec;User Id=usuarioParaAPIArduino_datawriter;Password=#Gf_senhaParaAPI;";
+                const connStr = "Server=svr-agreen-solutions.database.windows.net;Database=agreensolutions;User Id=Agreen;Password=#Gfgrupo11;";
 
                 function inserirComando(conn, sqlquery) {
                     conn.query(sqlquery);
-                    console.log("valores inseridos no banco: ", dht11Umidade + ", " + dht11Temperatura + ", " + luminosidade + ", " + lm35Temperatura + ", " + chave)
+                    conn.query(sqlquery2);
+                    conn.query(sqlquery3);
+                    conn.query(sqlquery4);
+
+                    console.log(`Valores inseridos no banco: ${dht11Temperatura}°C, ${dht11Umidade}%, ${dht11Temperatura2}°C, ${dht11Umidade2}%, ${dht11Temperatura3}°C, ${dht11Umidade3}%, ${dht11Temperatura4}°C, ${dht11Umidade4}%`);
                 }
 
                 sql.connect(connStr)
