@@ -11,12 +11,12 @@ const SERVIDOR_PORTA = 3300;
 // configure a linha abaixo caso queira que os dados capturados sejam inseridos no banco de dados.
 // false -> nao insere
 // true -> insere
-const HABILITAR_OPERACAO_INSERIR = false;
+const HABILITAR_OPERACAO_INSERIR = true;
 
 // altere o valor da variável AMBIENTE para o valor desejado:
 // API conectada ao banco de dados remoto, SQL Server -> 'producao'
 // API conectada ao banco de dados local, MySQL Workbench - 'desenvolvimento'
-const AMBIENTE = 'desenvolvimento';
+const AMBIENTE = 'producao';
 
 const serial = async (
     valoresDht11Umidade,
@@ -107,10 +107,10 @@ const serial = async (
                 // -> altere nome da tabela e colunas se necessário
                 // Este insert irá inserir dados de fk_aquario id=1 (fixo no comando do insert abaixo)
                 // >> Importante! você deve ter o aquario de id 1 cadastrado.
-                sqlquery = `INSERT INTO leitura (temperatura,umidade,data_horario,fkSensor,fkEmpresa) VALUES (${dht11Temperatura},${dht11Umidade},NOW(),1,1)`;
-                sqlquery2 = `INSERT INTO leitura (temperatura,umidade,data_horario,fkSensor,fkEmpresa) VALUES (${dht11Temperatura2},${dht11Umidade2},NOW(),2,1)`;
-                sqlquery3 = `INSERT INTO leitura (temperatura,umidade,data_horario,fkSensor,fkEmpresa) VALUES (${dht11Temperatura3},${dht11Umidade3},NOW(),3,1)`;
-                sqlquery4 = `INSERT INTO leitura (temperatura,umidade,data_horario,fkSensor,fkEmpresa) VALUES (${dht11Temperatura4},${dht11Umidade4},NOW(),4,1)`;
+                sqlquery = `INSERT INTO leitura (temperatura,umidade,data_horario,fkSensor,fkEmpresa) VALUES (${dht11Temperatura2},${dht11Umidade2},current_timestamp,1,1)`;
+                sqlquery2 = `INSERT INTO leitura (temperatura,umidade,data_horario,fkSensor,fkEmpresa) VALUES (${dht11Temperatura3},${dht11Umidade3},current_timestamp,2,1)`;
+                sqlquery3 = `INSERT INTO leitura (temperatura,umidade,data_horario,fkSensor,fkEmpresa) VALUES (${dht11Temperatura5},${dht11Umidade5},current_timestamp,3,1)`;
+                sqlquery4 = `INSERT INTO leitura (temperatura,umidade,data_horario,fkSensor,fkEmpresa) VALUES (${dht11Temperatura4},${dht11Umidade4},current_timestamp,4,1)`;
                 
 
                 // CREDENCIAIS DO BANCO REMOTO - SQL SERVER
@@ -124,7 +124,8 @@ const serial = async (
                     conn.query(sqlquery3);
                     conn.query(sqlquery4);
 
-                    console.log(`Valores inseridos no banco: ${dht11Temperatura}°C, ${dht11Umidade}%, ${dht11Temperatura2}°C, ${dht11Umidade2}%, ${dht11Temperatura3}°C, ${dht11Umidade3}%, ${dht11Temperatura4}°C, ${dht11Umidade4}%`);
+                    console.log(`Valores inseridos no banco: ${dht11Temperatura2}°C, ${dht11Umidade2}%, ${dht11Temperatura3}°C, ${dht11Umidade3}%, ${dht11Temperatura4}°C, ${dht11Umidade4}%
+                    , ${dht11Temperatura5}°C, ${dht11Umidade5}%`);
                 }
 
                 sql.connect(connStr)
@@ -139,7 +140,7 @@ const serial = async (
                 // Este insert irá inserir dados de fk_aquario id=1 (fixo no comando do insert abaixo)
                 // >> você deve ter o aquario de id 1 cadastrado.
                 await poolBancoDados.execute(
-                    'INSERT INTO medida (dht11_umidade, dht11_temperatura, luminosidade, lm35_temperatura, chave, momento, fk_aquario) VALUES (?, ?, ?, ?, ?, now(), 1)',
+                    'INSERT INTO medida (dht11_umidade, dht11_temperatura, luminosidade, lm35_temperatura, chave, momento, fk_aquario) VALUES (?, ?, ?, ?, ?, current_timestamp, 1)',
                     [dht11Umidade, dht11Temperatura, luminosidade, lm35Temperatura, chave]
                 );
                 console.log("valores inseridos no banco: ", dht11Umidade + ", " + dht11Temperatura + ", " + luminosidade + ", " + lm35Temperatura + ", " + chave)
