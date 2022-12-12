@@ -24,18 +24,18 @@ void loop()
 */
 float umidade = dht_1.readHumidity();
 float umidadeProjeto = 1.8*umidade-73.6;
-float u2 = umidadeProjeto*1.10;
-float u3 = umidadeProjeto*1.15;
-float u4 = umidadeProjeto*1.05;
-float u5 = umidadeProjeto*1.20;
+float u2 = umidadeProjeto*2.20;
+float u3 = umidadeProjeto*2.80;
+float u4 = umidadeProjeto*2.90;
+float u5 = umidadeProjeto*2.10;
 
 float temperatura = dht_1.readTemperature();
 
 float temperaturaProjeto = 1.8*temperatura-25.6;
-float t2 = temperaturaProjeto*1.10;
-float t3 = temperaturaProjeto*0.95;
-float t4 = temperaturaProjeto+1.25;
-float t5 = temperaturaProjeto*1.15;
+float t2 = temperaturaProjeto*0.90;
+float t3 = temperaturaProjeto*0.15;
+float t4 = temperaturaProjeto*0.12;
+float t5 = temperaturaProjeto*1.02;
 
 
 if (isnan(temperatura) or isnan(umidade))
